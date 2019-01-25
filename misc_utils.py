@@ -92,10 +92,9 @@ def model_fitter(model,train_x,train_y,validation_data,\
     hist = model.fit(train_x,train_y, batch_size=batch_size, epochs=max_epochs,
                      verbose=0, validation_data=validation_data,callbacks=[checkpoint,reduce_lr,term,tqdm_callback,early_stop])
 
-    plot_history(hist)
-
-    print("Reloading Best Checkpointed weights")
+    print(f"Reloading Best Checkpointed weights from {checkpoint_path}")
     model.load_weights(checkpoint_path)
+    plot_history(hist)
     print("Model Training Loss (Without Dropout)=",model.evaluate(train_x,train_y,verbose=0))
     print("Model Validation Loss=",model.evaluate(validation_data[0],validation_data[1],verbose=0))
     return hist,model
