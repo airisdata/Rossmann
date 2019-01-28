@@ -27,13 +27,16 @@ df_2_fit <- reactive({
     df_2_fit$fit_tvar <- fit_and_forcst_tvar()
   
   if("tbats" %in% input$models_to_train)
-    df_2_fit$fit_tvar <- fit_and_forcst_tbats()
+    df_2_fit$fit_tbats <- fit_and_forcst_tbats()
   
   if("prophet_xreg_check" %in% input$models_to_train)
     df_2_fit$fit_propher <- fit_and_forcst_prophet()
   
   if("xgboost_xreg" %in% input$models_to_train)
     df_2_fit$fit_xgboost <- fit_and_forcst_xgboost()
+  
+  if("hybrid" %in% input$models_to_train)
+    df_2_fit$fit_hybrid <- fit_and_forcst_hybrid()
   
   
   df_2_fit

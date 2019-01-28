@@ -58,6 +58,28 @@ fit_and_forcst_nnetar_xreg <- reactive({
   forecast(fit, h = input$max_pr_hor, xreg = df_splitted()$xreg_mat_2)$mean
 })
 
+
+############# hybrid
+fit_and_forcst_hybrid <- reactive({
+  #browser()
+  withProgress(message = 'Make model:', value = 0, {
+    incProgress(1/3, detail = paste("hybrid (arima-nnet"))
+    #browser()
+    
+    #fit_a <- auto.arima(df_splitted()$x)
+    #fit_n <- nnetar(fit_a$residuals)    
+    
+    fit_a <- nnetar(df_splitted()$x)
+    fit_n <- arima(fit_a$residuals)    
+    
+    #models_info$fit_hybrid <- paste(fit_a, fit_n)
+    models_info$fit_hybrid <- "hybrid"
+  })
+  
+  forecast(fit_a, h = input$max_pr_hor)$mean +
+    forecast(fit_n, h = input$max_pr_hor)$mean
+})
+
 ############# setar
 fit_and_forcst_setar <- reactive({
 

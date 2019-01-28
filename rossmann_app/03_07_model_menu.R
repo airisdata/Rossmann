@@ -23,7 +23,8 @@ menuItem_model <- menuItem(
         "tbats",
         "prophet_xreg_check",
         "xgboost_xreg",
-        "ensemble"
+        "ensemble",
+        "hybrid"
       )
     )
     

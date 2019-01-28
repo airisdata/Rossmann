@@ -8,8 +8,10 @@ distortion <- reactive({
 })
 
 output$distortion_plot <- renderPlot({
-  ggplot(data.frame(x = 1:length(distortion()), y = distortion())) +
+  dp <- ggplot(data.frame(x = 1:length(distortion()), y = distortion())) +
     geom_line(aes(x = x, y = y))
+  ggsave("dp.png")
+  dp
 })
 
 output$distortion_plot_repeat <- renderPlot({
@@ -23,8 +25,10 @@ output$ar1_plot <- renderPlot({
     val[i] = input$ar1_coeff  * val[i-1] + distortion()[i]
   }
   
-  ggplot(data.frame(x = 1:length(val), y = val)) +
+  ar1_p <- ggplot(data.frame(x = 1:length(val), y = val)) +
     geom_line(aes(x = x, y = y))
+  ggsave("ar1_p.png")
+  ar1_p
 })
 
 output$ar2_plot <- renderPlot({
@@ -33,8 +37,11 @@ output$ar2_plot <- renderPlot({
     val[i] = input$ar2_coeff1  * val[i-1] + input$ar2_coeff2  * val[i-2] + distortion()[i]
   }
   
-  ggplot(data.frame(x = 1:length(val), y = val)) +
+  ar2_p <- ggplot(data.frame(x = 1:length(val), y = val)) +
     geom_line(aes(x = x, y = y))
+  
+  ggsave("ar2_p.png")
+  ar2_p
 })
 
 
@@ -44,9 +51,12 @@ output$ma1_plot <- renderPlot({
     val[i] = input$ma1_coeff * distortion()[i-1] + distortion()[i]
   }
   
-  ggplot(data.frame(x = 1:length(val), y = val)) +
+  ma1_p <- ggplot(data.frame(x = 1:length(val), y = val)) +
     geom_point(aes(x = x, y = y), size = 1) +
     geom_linerange(aes(x = x, ymax = y, ymin = 0))
+  
+  ggsave("ma1_p.png")
+  ma1_p
 })
 
 output$ma2_plot <- renderPlot({
@@ -56,8 +66,11 @@ output$ma2_plot <- renderPlot({
       input$ma2_coeff2 * distortion()[i-2] + distortion()[i]
   }
   
-  ggplot(data.frame(x = 1:length(val), y = val)) +
+  ma2_p <- ggplot(data.frame(x = 1:length(val), y = val)) +
     geom_point(aes(x = x, y = y), size = 1) +
     geom_linerange(aes(x = x, ymax = y, ymin = 0))
+  
+  ggsave("ma2_p.png")
+  ma2_p
 })
 

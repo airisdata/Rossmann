@@ -10,7 +10,7 @@ tabItem_explore <- tabItem(
         box(
           withMathJax(),
           helpText('AR(1) with only predictable distortions'),
-          helpText("$$x_t = \\phi  * x_{t-1} + e_t$$"),
+          helpText("$$y_t = \\phi  * y_{t-1} + e_t$$"),
           sliderInput("ar1_coeff", "Coefficient in AR1", -1, 1, step = 0.01, value = 0.9, 
                       width = '50%'),
           plotOutput("ar1_plot", width = 300, height = 200),
@@ -20,7 +20,7 @@ tabItem_explore <- tabItem(
         
         box(
           helpText('AR(2) with only predictable distortions'),
-          helpText("$$x_t = \\phi_1  * x_{t-1} + \\phi_2  * x_{t-2} + e_t$$"),
+          helpText("$$y_t = \\phi_1  * y_{t-1} + \\phi_2  * y_{t-2} + e_t$$"),
           sliderInput("ar2_coeff1", "1st Coefficient in AR2", -1, 1, step = 0.01, value = 0.8, 
                       width = '50%'),
           sliderInput("ar2_coeff2", "2nd Coefficient in AR2", -1, 1, step = 0.01, value = -0.6, 
@@ -41,7 +41,7 @@ tabItem_explore <- tabItem(
         box(
           withMathJax(),
           helpText('MA(1) with only predictable distortions'),
-          helpText("$$x_t = \\phi  * e_{t-1} + e_t$$"),
+          helpText("$$y_t = \\phi  * e_{t-1} + e_t$$"),
           sliderInput("ma1_coeff", "Coefficient in MA1", -1, 1, step = 0.01, value = 0.9,
                       width = '50%'),
           plotOutput("ma1_plot", width = 300, height = 200),
@@ -51,7 +51,7 @@ tabItem_explore <- tabItem(
         
         box(
           helpText('MA(2) with only predictable distortions'),
-          helpText("$$x_t = \\phi_1  * e_{t-1} + \\phi_2  * e_{t-2} + e_t$$"),
+          helpText("$$y_t = \\phi_1  * e_{t-1} + \\phi_2  * e_{t-2} + e_t$$"),
           sliderInput("ma2_coeff1", "1st Coefficient in MA2", -1, 1, step = 0.01, value = 0.8,
                       width = '50%'),
           sliderInput("ma2_coeff2", "2nd Coefficient in MA2", -1, 1, step = 0.01, value = -0.6,
