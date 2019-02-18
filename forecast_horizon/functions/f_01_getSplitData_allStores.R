@@ -1,16 +1,20 @@
 ##########################################
 ##########################################
-getSplitData_allStores <- function(file_train = "../dataFiles/train.csv", 
+getSplitData_allStores <- function(file_train = "dataFiles/train.feather", 
                       days_in_val = 60){
   
   print("Reading data")
-  # df <- feather::read_feather(file_train) %>%
-  #   arrange(Date) %>%
-  #   mutate(Date = ymd(Date))
+  if(str_detect(file_train, "feather")){
+    df <- feather::read_feather(file.path(getwd(), file_train)) %>%
+      arrange(Date) %>%
+      mutate(Date = ymd(Date))    
+  }else{
+    df <- readr::read_csv(file_train) %>%
+      arrange(Date) %>%
+      mutate(Date = ymd(Date))
+  }
+
   
-  df <- readr::read_csv(file_train) %>%
-    arrange(Date) %>%
-    mutate(Date = ymd(Date))
   
   sequence(range(df$Date))
   
