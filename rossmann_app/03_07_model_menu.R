@@ -24,7 +24,8 @@ menuItem_model <- menuItem(
         "prophet_xreg_check",
         "xgboost_xreg",
         "ensemble",
-        "hybrid"
+        "hybrid", 
+        "DL"
       )
     )
     

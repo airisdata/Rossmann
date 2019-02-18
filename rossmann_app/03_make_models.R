@@ -252,3 +252,41 @@ fit_and_forcst_xgboost <- reactive({
 })
 
 
+### deep learning from B
+fit_and_forcst_DL <- reactive({
+  library(feather)
+  library(dplyr)
+  
+  withProgress(message = 'Loading DL results', value = 0, {
+    incProgress(1/3, detail = paste("now"))
+    
+    #nn_tr <- feather::read_feather("/mnt/disks/data_disk/rossmann_data/neural_net_predictions/train_preds_df_func_full_model.feather")
+    nn_val <- feather::read_feather("/mnt/disks/data_disk/rossmann_data/neural_net_predictions/valid_preds_df_func_full_model.feather")
+    #nn_tr$data_type <- "tr"
+    #nn_val$data_type <- "val"    
+
+  })
+
+  
+  #browser()
+  split_date <- one_store_df()$Date %>% unique() %>% 
+    tail(input$max_pr_hor) %>% `[`(1)
+  
+  
+  st <- as.numeric(input$store)
+  
+  nn_val <- nn_val %>%
+    dplyr::filter(Store == st) 
+  
+  
+  nn_val %>%
+    dplyr::filter(Date >= split_date) %>%
+    #mutate(Date = as.character(Date)) %>%
+    #dplyr::filter(Date %in% dates_in_test)
+    dplyr::select(PredictedSales) %>%
+    unlist()
+      
+    
+})
+
+

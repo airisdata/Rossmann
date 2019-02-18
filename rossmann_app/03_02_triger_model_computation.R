@@ -38,6 +38,8 @@ df_2_fit <- reactive({
   if("hybrid" %in% input$models_to_train)
     df_2_fit$fit_hybrid <- fit_and_forcst_hybrid()
   
+  if("DL" %in% input$models_to_train)
+    df_2_fit$fit_DL <- fit_and_forcst_DL()
   
   df_2_fit
 })
