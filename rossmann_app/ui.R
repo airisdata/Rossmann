@@ -11,6 +11,7 @@ library(shiny)
 library(shinydashboard)
 library(DT)
 library(dygraphs)
+library(dplyr)
 
 
 source("01_explore_menu.R", local = T)

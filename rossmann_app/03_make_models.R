@@ -83,6 +83,7 @@ fit_and_forcst_hybrid <- reactive({
 ############# setar
 fit_and_forcst_setar <- reactive({
 
+  #browser()
   withProgress(message = 'Make model:', value = 0, {
     incProgress(1/3, detail = paste("setar"))
     #browser()
@@ -90,11 +91,15 @@ fit_and_forcst_setar <- reactive({
     x <- df_splitted()$x
     #x <- x[!is.na(x)]
 
+    detach(package:dplyr) ## uload, otherwise lag from stats is masked
     res <- selectSETAR(x, m=5, plot = F)
+
     par_v <- res$bests
     par_v <- par_v[!stringr::str_detect(names(par_v), "AIC")] 
     par_v
     fit <- do.call(setar, c(list(x = x), par_v))
+    
+    library(dplyr)
     
     models_info$fit_setar <- fit
   })

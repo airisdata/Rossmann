@@ -17,7 +17,7 @@ library(xts)
 library(DT)
 library(tsDyn)
 library(caret)
-lag <- stats::lag  # to overcome lag masking by dplyr
+#lag <- stats::lag  # to overcome lag masking by dplyr
 library(prophet)
 
 ### xgboost
