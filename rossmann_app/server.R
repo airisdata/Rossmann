@@ -28,6 +28,12 @@ library(forecastxgb)
 ## max pr hor
 #max_pr_hor <- 48 
 
+sys_vars <- readLines("/etc/bash.bashrc")
+rossmann_data_path <- sys_vars[str_detect(sys_vars, "ROSS_DATA_PATH")] %>%
+  str_extract('\\".+\\"') %>%
+  str_remove_all('\\"')
+
+
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
   

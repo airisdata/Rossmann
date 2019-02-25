@@ -1,6 +1,7 @@
 ##########################################
 ##########################################
-getSplitData_allStores <- function(file_train = "dataFiles/train.feather", 
+getSplitData_allStores <- function(file_train = 
+                                     file.path(rossmann_data_path, "ARIMA_data", "train.feather"), 
                       days_in_val = 60){
   
   print("Reading data")

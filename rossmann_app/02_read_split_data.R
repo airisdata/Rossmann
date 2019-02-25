@@ -3,13 +3,18 @@ dfs <- reactive({
   withProgress(message = 'Loading data', value = 0, {
     incProgress(1/3, detail = paste("training"))
     
-    tr_df <- feather::read_feather("../dataFiles/train.feather") %>%
+    
+    
+    tr_df <- feather::read_feather(
+      file.path(rossmann_data_path, "ARIMA_data", "train.feather")) %>%
       arrange(Date) %>%
       mutate(Date = ymd(Date))
     
     incProgress(1/3, detail = paste("test"))
     
-    ts_df <- feather::read_feather("../dataFiles/test.feather") %>%
+    ts_df <- feather::read_feather(
+      file.path(rossmann_data_path, "ARIMA_data", "test.feather")
+    ) %>%
       arrange(Date) %>%
       mutate(Date = ymd(Date))
   })

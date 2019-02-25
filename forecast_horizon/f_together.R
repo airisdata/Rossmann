@@ -6,7 +6,8 @@ for(f in dir("rossmann_app/functions/")){
   source(paste0("rossmann_app/functions/", f))
 }
 
-df <- getSplitData_allStores(file_train = "dataFiles/train.feather", 
+df <- getSplitData_allStores(file_train = 
+                               file.path(rossmann_data_path, "ARIMA_data", "train.feather"), 
                              days_in_val = 60)  
 
 xreg <- create_xregVars(df)
