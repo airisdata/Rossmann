@@ -1,10 +1,17 @@
 library(dplyr)
 library(lubridate)
 library(forecast)
+library(stringr)
 
-for(f in dir("rossmann_app/functions/")){
-  source(paste0("rossmann_app/functions/", f))
+for(f in dir("forecast_horizon/functions/")){
+  print(paste0("forecast_horizon/functions/", f))
+  source(paste0("forecast_horizon/functions/", f))
 }
+
+sys_vars <- readLines("/etc/bash.bashrc")
+rossmann_data_path <- sys_vars[str_detect(sys_vars, "ROSS_DATA_PATH")] %>%
+  str_extract('\\".+\\"') %>%
+  str_remove_all('\\"')
 
 df <- getSplitData_allStores(file_train = 
                                file.path(rossmann_data_path, "ARIMA_data", "train.feather"), 
