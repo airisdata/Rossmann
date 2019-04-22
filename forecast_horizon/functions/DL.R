@@ -9,6 +9,9 @@ res_DL <- nn_val %>%
   rename(pred = PredictedSales) %>%
   mutate(Date = lubridate::ymd(Date)) %>% 
   select(Store, Date, Sales, pred, DayOfWeek) %>%
-  clean_data(remove_sunday = T, fill_na = T) %>%
+  #clean_data(remove_sunday = T, fill_na = T) %>%
+  
+  filter(Store %in% stores_with_all_data) %>%
+  
   mutate(model = "DL")  %>%
   select(-DayOfWeek)

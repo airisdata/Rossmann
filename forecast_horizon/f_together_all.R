@@ -22,25 +22,77 @@ min(orig_df$val_df$Date)
 
 df <- orig_df
 
+##################################
+######################  Choose stores
+df_st <- df$train_df
+
+stores_with_all_data <- df_st %>%
+  filter(Sales != 0) %>%
+  filter(!is.na(Sales)) %>%
+  group_by(Store) %>%
+  mutate(number_of_obs = n()) %>%
+  ungroup() %>%
+  filter(number_of_obs == max(number_of_obs)) %>%
+  select(Store) %>%
+  arrange(Store) %>% 
+  distinct() %>%
+  unlist()
+
+stores_with_all_data
+
+df$train_df <- df$train_df %>%
+  filter(Store %in% stores_with_all_data)
+
+df$val_df <- df$val_df %>%
+  filter(Store %in% stores_with_all_data)
+
 ###########################################
 ######################  Get predictions
 ###########################################
 source("forecast_horizon/functions/arimaMod.R")
+source("forecast_horizon/functions/arimaMod_seas7.R")
 source("forecast_horizon/functions/arimaXreg.R")
+source("forecast_horizon/functions/stlm.R")
 source("forecast_horizon/functions/DL.R")
 
 ###########################################
 ######################  Combine
 ###########################################
 
-#res <- bind_rows(res_arima, res_DL)
-res_full <- bind_rows(res_arima, res_DL, res_arimaXreg)
-
+res_full <- bind_rows(res_arima, res_DL)
+#res_full <- bind_rows(res_arima, res_DL, res_arimaXreg, res_arima_seas6)
+#res_full <- bind_rows(res_arima, res_DL, res_arima_seas7, res_stlmArima)
 ###########################################
 ######################  Metric
 ###########################################
 res_full <- res_full %>%
   mutate(horizon = as.integer(Date - min(Date)))
+
+##############################################################################
+
+## all stores
+unique(res_full$Store)
+
+## largest error?
+res_full %>%
+  mutate(ape = abs(pred - Sales)/abs(Sales)) %>%
+  group_by(model, horizon) %>%
+  filter(ape == max(ape)) %>%
+  filter(horizon == 1)
+
+max_error_ts <- orig_df$train_df %>%
+  filter(Store == 85) %>%
+  select(Sales) %>%
+  unlist
+
+dygraphs::dygraph(tibble(day = 1:length(max_error_ts), sales = max_error_ts))
+
+fit <- filter(all_models_stlmArima, Store == 423)$mod[[1]]
+fit <- filter(all_models_arima, Store == 423)$mod[[1]]
+
+plot(forecast::forecast(fit, 30))
+
+##############################################################################
 
 res_full <- res_full %>%
   mutate(ape = abs(pred - Sales)/abs(Sales)) %>%
@@ -72,3 +124,4 @@ plot(p2)
 library(plotly)
 ggplotly(p2)
 
+ggsave(p2, filename = "p2.jpeg")
